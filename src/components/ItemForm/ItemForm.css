@@ -19,4 +19,13 @@ html, body {
   padding-right: 1.2em;
   border-radius: 8px !important;
 }
-/*# sourceMappingURL=index.css.map */
+
+.helperText {
+  font-size: 12px;
+  color: gray;
+}
+
+.customModal {
+  max-width: 35em !important;
+}
+/*# sourceMappingURL=ItemForm.css.map */

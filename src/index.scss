@@ -1,0 +1,44 @@
+//Variables
+$bgColor: #F5F7F8;
+$textColor: #0E1924;
+$accentColor: #ECEFF1;
+$blue: #0C6FDC;
+
+@mixin fontStyle {
+  font-family: 'Lato', sans-serif;
+  color: $textColor !important;
+}
+
+@mixin titleStyle {
+  @include fontStyle();
+  font-weight: bold;
+}
+
+html, body {
+  background-color: $bgColor !important;
+  @include fontStyle();
+}
+
+.logoHeader {
+  @include titleStyle();
+  font-size: 1.2em;
+  padding: 1em;
+}
+
+.defaultButton {
+  background-color: $blue !important;
+  padding: 0.7em;
+  padding-left: 1.2em;
+  padding-right: 1.2em;
+  border-radius: 8px !important;
+}
+
+.containerTweaks {
+  min-height: 45rem !important;
+}
+
+footer {
+  background-color: $accentColor;
+  height: 6.5rem;
+
+}
