@@ -1,133 +1,114 @@
-import { React, useState } from 'react'
+import { React, useState, useEffect } from 'react'
 import './ItemForm.scss';
-import 'antd/dist/antd.css';
-import { Form, Input, Select, DatePicker } from 'antd';
-import { Button, Col, Row, Modal, Container } from 'react-bootstrap';
-import moment from 'moment';
-import { createItem, onEditItem } from "../../services/ItemService";
+import { useForm } from "react-hook-form";
+import { Button, Col, Row, Form } from 'react-bootstrap';
+import { createItem, onEditItem, getItemByID } from "../../services/ItemService";
 
 const ItemForm = (props) => {
 
-    const [currentID, SetCurrentID] = useState('');
-
-    const dateFormat = 'DD/MM/YYYY';
-
-    const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-
-    const onFinish = (values) => {
-        const item = {
-            url: values.url,
-            path: values.path,
-            dev: values.dev,
-            date: values.date.format("MM-DD-YYYY")
-        }
-
-        createItem(item);
-
-        // if (props.currentID === '') {
-        //     createItem(item);
-        //     SetCurrentID('');
-        // } else {
-        //     onEditItem(item, currentID);
-        //     SetCurrentID('');
-        // }
-        
-
-        handleClose();
+    const initialStateValues = {
+        url: '',
+        path: '',
+        date: '',
+        dev: ''
     };
 
+    const [values, setValues] = useState(initialStateValues);
+
+    const { register, handleSubmit, watch, errors } = useForm();
+
+    const handleInputChange = e => {
+        const { name, value } = e.target;
+        setValues({ ...values, [name]: value });
+    }
+
+    const onSubmit = e => {
+
+        if (props.currentID === '') {
+            createItem(values);
+            console.log('Created successfully!');
+        } else {
+            onEditItem(values, props.currentID);
+            console.log('Edited successfully!');
+        }
+
+        setValues({ ...initialStateValues })
+        props.onHide()
+    }
+
+    useEffect(() => {
+        if (props.currentID === '') {
+            setValues({ ...initialStateValues });
+        } else {
+            getItemByID(props.currentID, setValues);
+        }
+
+    }, [props.currentID])
+
     return (
-        <Modal
-            {...props}
-            size="md"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-        >
-            <Modal.Body>
-                <Container className="p-0">
-                    <Row>
-                        <Col md={12}>
-                            <div>
-                                <h5 className="font-weight-light modalBodyHeader text-center">Please fill in the item details below to add the path to our DB.</h5>
-                            </div>
-                        </Col>
-                    </Row>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+            <Row>
+                <Col md={12}>
+                    <div>
+                        <h5 className="font-weight-light modalBodyHeader text-center mb-3">Please fill in the item details below to add the path to our DB.</h5>
+                    </div>
+                </Col>
+            </Row>
 
-                    <Form
-                        layout="vertical"
-                        initialValues={{ remember: true }}
-                        onValuesChange={() => console.log('submitted')}
-                        size='large'
-                        onFinish={onFinish}
-                    >
+            <Form.Group controlId="url">
+                <Form.Label>Ticket URL</Form.Label>
+                <Form.Control ref={register({ required: true })} placeholder="Please insert a valid Jira ticket URL." onChange={handleInputChange} name="url" defaultValue={values.url}/>
+                {errors.url && <p className="text-danger">Please insert a valid Jira ticket URL.</p>}
+            </Form.Group>
 
-                        <Form.Item
-                            label="Ticket URL"
-                            name="url"
-                            rules={[{ required: true, message: 'Please input the ticket URL!' }]}
-                        >
-                            <Input placeholder="Insert the Jira ticket URL or just the ticket ID" />
-                        </Form.Item>
+            <Form.Group controlId="path">
+                <Form.Label>Path (s)</Form.Label>
+                <Form.Control ref={register({ required: true })} name="path" as="textarea" rows={1} placeholder="Insert the path(s) that cannot be edited." onChange={handleInputChange} defaultValue={values.path} />
+                <p className="text-muted  font-italic m-0">If you want to add one more path to the item just separate them with a ","</p>
+                {errors.path && <p className="text-danger">Please insert a valid path(s).</p>}
+            </Form.Group>
 
-                        <Form.Item 
-                        label="Path(s)" 
-                        name="path"
-                        rules={[{ required: true, message: 'Please input the path(s) of your items!' }]}
-                        >
-                            <Input placeholder="SC Item path(s)" />
-                            
-                        </Form.Item>
-                        <p className="text-muted  font-italic">If you want to add one more path to the item just separate them with a ","</p>
+            <Row>
+                <Col md={7}>
+                    <Form.Group controlId="dev">
+                        <Form.Label>Developer</Form.Label>
+                        <Form.Control ref={register({ required: true })} name="dev" as="select" onChange={handleInputChange} value={values.dev}>
+                            <option value="">Select a developer</option>
+                            <option value="Abraham Oviedo 🤔">Abraham Oviedo 🤔</option>
+                            <option value="Alejandro Jerez 🙃">Alejandro Jerez 🙃</option>
+                            <option value="Alejandro Solano 🔥">Alejandro Solano 🔥</option>
+                            <option value="Cesar Peralta 😜">César Peralta 😜</option>
+                            <option value="Daniel Mora 🥤">Daniel Mora 🥤</option>
+                            <option value="Esteban Fonseca 👾">Esteban Fonseca 👾</option>
+                            <option value="Fabricio Cordero 💩">Fabricio Cordero 💩</option>
+                            <option value="Hillary Cordero 😌">Hillary Cordero 😌</option>
+                            <option value="Kendall Calderon 😏">Kendall Calderon 😏</option>
+                            <option value="Juan Jose Coto 😶">Juan Jose Coto 😶</option>
+                            <option value="Nela Sánchez 😈">Nela Sánchez 😈</option>
+                            <option value="Rachel Morrill">Rachel Morrill </option>
+                            <option value="Rachel Morrill">Vivian Chollete </option>
+                        </Form.Control>
+                        {errors.dev && <p className="text-danger">Please select a developer.</p>}
+                    </Form.Group>
+                </Col>
 
-                        <Row>
-                            <Col md={8}>
-                                <Form.Item 
-                                    label="Developer" 
-                                    name="dev"
-                                    rules={[{ required: true, message: 'Please select a developer!' }]}
-                                >
-                                    <Select placeholder="Select developer">
-                                        <Select.Option value="Abraham Oviedo">Abraham Oviedo</Select.Option>
-                                        <Select.Option value="Alejandro Jerez">Alejandro Jerez</Select.Option>
-                                        <Select.Option value="Alejandro Solano">Alejandro Solano (Luwi)</Select.Option>
-                                        <Select.Option value="Cesar Peralta">César Peralta</Select.Option>
-                                        <Select.Option value="Daniel Mora">Daniel Mora</Select.Option>
-                                        <Select.Option value="Esteban Fonseca">Esteban Fonseca</Select.Option>
-                                        <Select.Option value="Fabricio Cordero">Fabricio Cordero</Select.Option>
-                                        <Select.Option value="Hillary Cordero">Hillary Cordero</Select.Option>
-                                        <Select.Option value="Kendall Calderon">Kendall Calderon</Select.Option>
-                                        <Select.Option value="Josue Somarribas">Josue Somarribas</Select.Option>
-                                        <Select.Option value="Juan Jose Coto">Juan Jose Coto</Select.Option>
-                                        <Select.Option value="Rachel Morrill">Rachel Morrill</Select.Option>
-                                    </Select>
-                                </Form.Item>
+                <Col md={5} className="pl-0">
+                    <Form.Group controlId="date">
+                        <Form.Label>Due Date</Form.Label>
+                        <Form.Control ref={register({ required: true })} name="date" type="date" placeholder="Due date" onChange={handleInputChange} defaultValue={values.date} />
+                        {errors.date && <p className="text-danger">Please select a valid date.</p>}
+                    </Form.Group>
+                </Col>
+            </Row>
 
-                            </Col>
-                            <Col md={4} className="pl-0">
-                                <Form.Item 
-                                    label="Due date" 
-                                    name="date"
-                                    rules={[{ required: true, message: 'Please input the due date of your ticket!' }]}
-                                >
-                                    <DatePicker format={dateFormat} />
-                                </Form.Item>
-                            </Col>
-                        </Row>
-
-                        <Row>
-                            <Col className="d-flex justify-content-end mt-3">
-                                <Button variant="link" className="mr-2" onClick={handleClose}>Close</Button>
-                                <Button type="submit" className="defaultButton">Save</Button>
-                            </Col>
-                        </Row>
-                    </Form>
-
-                </Container>
-            </Modal.Body>
-        </Modal>
+            <Row>
+                <Col className="d-flex justify-content-end mt-3">
+                    <Button variant="link" className="mr-2" onClick={() => props.onHide()}>Close</Button>
+                    <Button type="submit" className="defaultButton">{props.currentID === '' ? 'Save' : 'Update'}</Button>
+                </Col>
+            </Row>
+        </Form>
     )
 }
 
-export default ItemForm
+export default ItemForm;

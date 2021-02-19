@@ -15,7 +15,7 @@ const Home = () => {
             </Container>
             <footer>
                 <Container>
-                    Made by Alejandro Solano
+                    <h6 className="text-center p-4">Made by Alejandro Solano</h6>
                 </Container>
             </footer>
         </>

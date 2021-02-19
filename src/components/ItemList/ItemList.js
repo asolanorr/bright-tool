@@ -1,9 +1,9 @@
 import { React, useState, useEffect } from 'react'
-import { Button, Col, Row, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Button, Col, Row, Dropdown, DropdownButton, Modal } from 'react-bootstrap';
 import './ItemList.scss';
 import { db } from "../../services/firebase";
 import ItemForm from "../ItemForm/ItemForm";
-import { onDeleteItem, onEditItem } from "../../services/ItemService";
+import { onDeleteItem } from "../../services/ItemService";
 import { Empty } from "antd";
 
 const ItemList = () => {
@@ -37,18 +37,18 @@ const ItemList = () => {
     }
 
     const isEmpty = (items) => {
+
         if (items.length === 0) {
             return (
                 <div className="m-4">
+
                     <Empty
                         image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
                         imageStyle={{
                             height: 60,
                         }}
                         description={
-                            <span>
-                                There are no items to show, if you want to add an item just click on the "Add Paths" button.
-                    </span>
+                            <span>There are no items to show, if you want to add an item just click on the "Add Paths" button.</span>
                         }
                     >
                     </Empty>
@@ -64,19 +64,34 @@ const ItemList = () => {
 
     const [modalShow, setModalShow] = useState(false);
 
+    const openEdit = (id) => {
+        SetCurrentID(id);
+        console.log(id);
+        setModalShow(true);
+    }
+
+    const openAdd = () => {
+        SetCurrentID('');
+        setModalShow(true);
+    }
+
     return (
         <div className="mt-5">
-            {/* Form Modal */}
-            <ItemForm
+            <Modal
                 show={modalShow}
                 onHide={() => setModalShow(false)}
-
-
-            />
+                size="md"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Body>
+                    <ItemForm {...{currentID}} show={modalShow} onHide={() => setModalShow(false)} />
+                </Modal.Body>
+            </Modal>
 
             <div className="d-flex justify-content-between mb-4">
                 <h5 className="d-inline-block pt-2 m-0 font-weight-bold">List of paths to be careful! ⚠️</h5>
-                <Button className="defaultButton" onClick={() => setModalShow(true)}>+ Add paths</Button>
+                <Button className="defaultButton" onClick={() => openAdd()}>+ Add paths</Button>
             </div>
 
             <div className="shadow-sm">
@@ -103,7 +118,8 @@ const ItemList = () => {
                         <Col className="" md={2}>{item.dev}</Col>
                         <Col className="p-0 text-center" md={1}>
                             <DropdownButton id="dropdown-item-button" className="listDropdown" title="">
-                                <Dropdown.Item as="button" className="dropdownException" onClick={() => setModalShow(true)}>Edit</Dropdown.Item>
+                                {/* <Dropdown.Item as="button" className="dropdownException" onClick={() => setModalShow(true)}>Edit</Dropdown.Item> */}
+                                <Dropdown.Item as="button" className="dropdownException" onClick={() => openEdit(item.id)}>Edit</Dropdown.Item>
                                 <Dropdown.Item as="button" className="dropdownException" onClick={() => onDeleteItem(item.id)}>Delete</Dropdown.Item>
                             </DropdownButton>
                         </Col>

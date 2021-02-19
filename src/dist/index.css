@@ -1,0 +1,31 @@
+html, body {
+  background-color: #F5F7F8 !important;
+  font-family: "Lato", sans-serif;
+  color: #0E1924 !important;
+}
+
+.logoHeader {
+  font-family: "Lato", sans-serif;
+  color: #0E1924 !important;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: 1em;
+}
+
+.defaultButton {
+  background-color: #0C6FDC !important;
+  padding: 0.7em;
+  padding-left: 1.2em;
+  padding-right: 1.2em;
+  border-radius: 8px !important;
+}
+
+.containerTweaks {
+  min-height: 45rem !important;
+}
+
+footer {
+  background-color: #ECEFF1;
+  height: 5.5rem;
+  margin-top: 1rem;
+}

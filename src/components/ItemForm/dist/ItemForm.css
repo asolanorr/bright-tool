@@ -1,0 +1,84 @@
+html, body {
+  background-color: #F5F7F8 !important;
+  font-family: "Lato", sans-serif;
+  color: #0E1924 !important;
+}
+
+.logoHeader {
+  font-family: "Lato", sans-serif;
+  color: #0E1924 !important;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: 1em;
+}
+
+.defaultButton {
+  background-color: #0C6FDC !important;
+  padding: 0.7em;
+  padding-left: 1.2em;
+  padding-right: 1.2em;
+  border-radius: 8px !important;
+}
+
+.containerTweaks {
+  min-height: 45rem !important;
+}
+
+footer {
+  background-color: #ECEFF1;
+  height: 6.5rem;
+}
+
+.helperText {
+  font-size: 12px;
+  color: gray;
+}
+
+.customModal {
+  max-width: 35em !important;
+}
+
+.ant-picker {
+  padding: 0.42rem 1rem !important;
+  padding-left: 1em !important;
+  border-radius: 0.25rem !important;
+}
+
+body > div.fade.modal.show > div > div > div > div > form > div:nth-child(2) > div.ant-col.ant-form-item-control > div > div > textarea {
+  padding: 0.42rem 1rem !important;
+  padding-left: 1em !important;
+  border-radius: 0.25rem !important;
+}
+
+.ant-row {
+  margin-bottom: 5px !important;
+}
+
+.ant-col {
+  padding-bottom: 0px !important;
+}
+
+.ant-picker-panel-container {
+  border-radius: 8px !important;
+}
+
+.modal-content {
+  background-color: #ECEFF1;
+  border-radius: 8px;
+}
+
+.modalBodyHeader {
+  font-size: 18px;
+}
+
+.ant-select-selector {
+  border-radius: 7px !important;
+}
+
+div .ant-picker-large {
+  border-radius: 8px !important;
+}
+
+input {
+  border-radius: 7px !important;
+}
