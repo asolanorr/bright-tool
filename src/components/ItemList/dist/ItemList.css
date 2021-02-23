@@ -1,0 +1,109 @@
+html, body {
+  background-color: #F5F7F8 !important;
+  font-family: "Lato", sans-serif;
+  color: #0E1924 !important;
+}
+
+.logoHeader {
+  font-family: "Lato", sans-serif;
+  color: #0E1924 !important;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: 1em;
+}
+
+.defaultButton {
+  background-color: #0C6FDC !important;
+  padding: 0.7em;
+  padding-left: 1.2em;
+  padding-right: 1.2em;
+  border-radius: 8px !important;
+}
+
+.containerTweaks {
+  min-height: 45rem !important;
+}
+
+footer {
+  background-color: #ECEFF1;
+  height: 5.5rem;
+  margin-top: 1rem;
+}
+
+.listHead {
+  width: 100%;
+  margin: 0;
+  font-family: "Lato", sans-serif;
+  color: #0E1924 !important;
+  font-weight: bold;
+  background-color: #ECEFF1;
+  padding: 0.7em;
+  border-radius: 8px 8px 0 0;
+}
+
+.listItem {
+  background-color: white !important;
+  width: 100%;
+  margin: 0;
+  font-size: 15px;
+  font-family: "Lato", sans-serif;
+  color: #0E1924 !important;
+  background-color: #F5F7F8;
+  padding: 0.7em;
+  border: 1.5px solid #ECEFF1;
+  border-top: 0;
+}
+
+.listItem:hover {
+  background-color: #FBFBFB !important;
+}
+
+.listDropdown button #dropdown-item-button {
+  height: 2.2em;
+  background-color: #ECEFF1;
+  border-color: #ECEFF1;
+  font-family: "Lato", sans-serif;
+  color: #0E1924 !important;
+}
+
+.listDropdown button #dropdown-item-button:hover {
+  height: 2.2em;
+  background-color: #ECEFF1;
+  border-color: #ECEFF1;
+  font-family: "Lato", sans-serif;
+  color: #0E1924 !important;
+}
+
+.btn-primary.dropdown-toggle {
+  height: 2.2em;
+  background-color: #ECEFF1 !important;
+  border-color: #ECEFF1 !important;
+  font-family: "Lato", sans-serif;
+  color: #0E1924 !important;
+}
+
+.dropdownException button {
+  background-color: white !important;
+}
+
+.listFooter {
+  background-color: #ECEFF1;
+  width: 100%;
+  margin: 0;
+  height: 5px;
+  border-radius: 0 0 8px 8px;
+}
+
+.pathSeparator {
+  border-left: 2px solid;
+  margin-bottom: 5px;
+  padding-left: 6px;
+  border-color: #ECEFF1;
+}
+
+.searchInput {
+  display: inline-block !important;
+  width: 50% !important;
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
+}

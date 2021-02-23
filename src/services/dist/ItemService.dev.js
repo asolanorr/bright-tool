@@ -25,9 +25,6 @@ var createItem = function createItem(itemObject) {
           return regeneratorRuntime.awrap(_firebase.db.collection('items').doc().set(itemObject));
 
         case 2:
-          console.log('The item has been created succesfully: ' + itemObject);
-
-        case 3:
         case "end":
           return _context.stop();
       }
@@ -85,8 +82,9 @@ var getItemByID = function getItemByID(id, setValues) {
         case 2:
           doc = _context4.sent;
           setValues(_objectSpread({}, doc.data()));
+          console.log(_objectSpread({}, doc.data()));
 
-        case 4:
+        case 5:
         case "end":
           return _context4.stop();
       }

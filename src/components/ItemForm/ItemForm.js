@@ -1,8 +1,9 @@
-import { React, useState, useEffect } from 'react'
+import { React, useEffect } from 'react'
 import './ItemForm.scss';
 import { useForm } from "react-hook-form";
 import { Button, Col, Row, Form } from 'react-bootstrap';
 import { createItem, onEditItem, getItemByID } from "../../services/ItemService";
+import { useToasts } from 'react-toast-notifications';
 
 const ItemForm = (props) => {
 
@@ -13,34 +14,44 @@ const ItemForm = (props) => {
         dev: ''
     };
 
-    const [values, setValues] = useState(initialStateValues);
+    const { register, handleSubmit, errors } = useForm();
 
-    const { register, handleSubmit, watch, errors } = useForm();
+    const { addToast } = useToasts();
 
     const handleInputChange = e => {
         const { name, value } = e.target;
-        setValues({ ...values, [name]: value });
+        props.setValues({ ...props.values, [name]: value });
     }
 
     const onSubmit = e => {
 
         if (props.currentID === '') {
-            createItem(values);
-            console.log('Created successfully!');
+            createItem(props.values);
+
+            addToast('Wooohooo! 🤓 \nThe item was created successfully.', { 
+                appearance: 'success',
+                autoDismiss: true
+            });
+
         } else {
-            onEditItem(values, props.currentID);
-            console.log('Edited successfully!');
+            onEditItem(props.values, props.currentID);
+
+            addToast('Oooh yeah! 😎 \nThe item was edited successfully.', { 
+                appearance: 'success',
+                autoDismiss: true
+            });
         }
 
-        setValues({ ...initialStateValues })
+        props.setValues({ ...initialStateValues })
         props.onHide()
     }
 
     useEffect(() => {
         if (props.currentID === '') {
-            setValues({ ...initialStateValues });
+            props.setValues({ ...initialStateValues });
         } else {
-            getItemByID(props.currentID, setValues);
+            getItemByID(props.currentID, props.setValues);
+            console.log(props.values)
         }
 
     }, [props.currentID])
@@ -57,13 +68,13 @@ const ItemForm = (props) => {
 
             <Form.Group controlId="url">
                 <Form.Label>Ticket URL</Form.Label>
-                <Form.Control ref={register({ required: true })} placeholder="Please insert a valid Jira ticket URL." onChange={handleInputChange} name="url" defaultValue={values.url}/>
+                <Form.Control ref={register({ required: true })} placeholder="Please insert a valid Jira ticket URL." onChange={handleInputChange} name="url" defaultValue={props.values.url} />
                 {errors.url && <p className="text-danger">Please insert a valid Jira ticket URL.</p>}
             </Form.Group>
 
             <Form.Group controlId="path">
                 <Form.Label>Path (s)</Form.Label>
-                <Form.Control ref={register({ required: true })} name="path" as="textarea" rows={1} placeholder="Insert the path(s) that cannot be edited." onChange={handleInputChange} defaultValue={values.path} />
+                <Form.Control ref={register({ required: true })} name="path" as="textarea" rows={1} placeholder="Insert the path(s) that cannot be edited." onChange={handleInputChange} defaultValue={props.values.path} />
                 <p className="text-muted  font-italic m-0">If you want to add one more path to the item just separate them with a ","</p>
                 {errors.path && <p className="text-danger">Please insert a valid path(s).</p>}
             </Form.Group>
@@ -72,21 +83,21 @@ const ItemForm = (props) => {
                 <Col md={7}>
                     <Form.Group controlId="dev">
                         <Form.Label>Developer</Form.Label>
-                        <Form.Control ref={register({ required: true })} name="dev" as="select" onChange={handleInputChange} value={values.dev}>
+                        <Form.Control ref={register({ required: true })} name="dev" as="select" onChange={handleInputChange} value={props.values.dev}>
                             <option value="">Select a developer</option>
                             <option value="Abraham Oviedo 🤔">Abraham Oviedo 🤔</option>
                             <option value="Alejandro Jerez 🙃">Alejandro Jerez 🙃</option>
                             <option value="Alejandro Solano 🔥">Alejandro Solano 🔥</option>
                             <option value="Cesar Peralta 😜">César Peralta 😜</option>
                             <option value="Daniel Mora 🥤">Daniel Mora 🥤</option>
-                            <option value="Esteban Fonseca 👾">Esteban Fonseca 👾</option>
+                            <option value="Esteban Fonseca 😴">Esteban Fonseca 😴</option>
                             <option value="Fabricio Cordero 💩">Fabricio Cordero 💩</option>
                             <option value="Hillary Cordero 😌">Hillary Cordero 😌</option>
                             <option value="Kendall Calderon 😏">Kendall Calderon 😏</option>
                             <option value="Juan Jose Coto 😶">Juan Jose Coto 😶</option>
                             <option value="Nela Sánchez 😈">Nela Sánchez 😈</option>
                             <option value="Rachel Morrill">Rachel Morrill </option>
-                            <option value="Rachel Morrill">Vivian Chollete </option>
+                            <option value="Vivian Chollete 🥳">Vivian Chollete 🥳</option>
                         </Form.Control>
                         {errors.dev && <p className="text-danger">Please select a developer.</p>}
                     </Form.Group>
@@ -95,7 +106,7 @@ const ItemForm = (props) => {
                 <Col md={5} className="pl-0">
                     <Form.Group controlId="date">
                         <Form.Label>Due Date</Form.Label>
-                        <Form.Control ref={register({ required: true })} name="date" type="date" placeholder="Due date" onChange={handleInputChange} defaultValue={values.date} />
+                        <Form.Control ref={register({ required: true })} name="date" type="date" placeholder="Due date" onChange={handleInputChange} defaultValue={props.values.date} />
                         {errors.date && <p className="text-danger">Please select a valid date.</p>}
                     </Form.Group>
                 </Col>

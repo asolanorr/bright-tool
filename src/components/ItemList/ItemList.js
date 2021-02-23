@@ -1,15 +1,30 @@
 import { React, useState, useEffect } from 'react'
-import { Button, Col, Row, Dropdown, DropdownButton, Modal } from 'react-bootstrap';
+import { Button, Col, Row, Dropdown, DropdownButton, Modal, FormControl } from 'react-bootstrap';
 import './ItemList.scss';
 import { db } from "../../services/firebase";
 import ItemForm from "../ItemForm/ItemForm";
 import { onDeleteItem } from "../../services/ItemService";
 import { Empty } from "antd";
+import { useToasts } from 'react-toast-notifications';
 
 const ItemList = () => {
 
     const [items, setItems] = useState([]);
+
     const [currentID, SetCurrentID] = useState('');
+
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const initialStateValues = {
+        url: '',
+        path: '',
+        date: '',
+        dev: ''
+    };
+
+    const [values, setValues] = useState(initialStateValues);
+
+    const { addToast } = useToasts();
 
     //This variable saves the paths of the current item, it's just a temporary variable
     let tmpPaths;
@@ -57,6 +72,14 @@ const ItemList = () => {
         }
     }
 
+    const onDelete = (id) => {
+        onDeleteItem(id);
+        addToast('Careful! The item was removed successfully.', {
+            appearance: 'error',
+            autoDismiss: true
+        });
+    }
+
     useEffect(() => {
         getItems();
     }, []);
@@ -85,14 +108,20 @@ const ItemList = () => {
                 centered
             >
                 <Modal.Body>
-                    <ItemForm {...{currentID}} show={modalShow} onHide={() => setModalShow(false)} />
+                    <ItemForm {...{ currentID, values, setValues }} show={modalShow} onHide={() => setModalShow(false)} />
                 </Modal.Body>
             </Modal>
 
-            <div className="d-flex justify-content-between mb-4">
-                <h5 className="d-inline-block pt-2 m-0 font-weight-bold">List of paths to be careful! ⚠️</h5>
+            <Row className="mb-3">
+                <Col md={12}>
+                    <h5 className="d-inline-block pt-2 m-0 font-weight-bold">List of paths to be careful! ⚠️</h5>
+                </Col>
+            </Row>
+
+            <Row className="d-flex justify-content-between pl-3 pr-3 mb-3">
+                <FormControl className="searchInput" as="input" placeholder="Search..." onChange={(event) => { setSearchTerm(event.target.value) }} name="searchTerm" />
                 <Button className="defaultButton" onClick={() => openAdd()}>+ Add paths</Button>
-            </div>
+            </Row>
 
             <div className="shadow-sm">
                 <Row className="listHead">
@@ -105,7 +134,17 @@ const ItemList = () => {
 
                 {isEmpty(items)}
 
-                {items.map((item) => (
+                {items.filter((val) => {
+                    if (searchTerm === '') {
+                        return val;
+                    } else if (
+                        val.url.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        val.path.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        val.dev.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        val.date.toLowerCase().includes(searchTerm.toLowerCase())) {
+                        return val;
+                    }
+                }).map((item) => (
                     tmpPaths = item.path.split(','),
                     <Row className="listItem" key={item.id}>
                         <Col className="p-0 pl-1" md={1}>
@@ -118,14 +157,12 @@ const ItemList = () => {
                         <Col className="" md={2}>{item.dev}</Col>
                         <Col className="p-0 text-center" md={1}>
                             <DropdownButton id="dropdown-item-button" className="listDropdown" title="">
-                                {/* <Dropdown.Item as="button" className="dropdownException" onClick={() => setModalShow(true)}>Edit</Dropdown.Item> */}
                                 <Dropdown.Item as="button" className="dropdownException" onClick={() => openEdit(item.id)}>Edit</Dropdown.Item>
-                                <Dropdown.Item as="button" className="dropdownException" onClick={() => onDeleteItem(item.id)}>Delete</Dropdown.Item>
+                                <Dropdown.Item as="button" className="dropdownException" onClick={() => onDelete(item.id)}>Delete</Dropdown.Item>
                             </DropdownButton>
                         </Col>
                     </Row>
                 ))}
-
                 <Row className="listFooter"></Row>
             </div>
         </div>
