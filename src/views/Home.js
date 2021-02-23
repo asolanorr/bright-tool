@@ -15,8 +15,8 @@ const Home = () => {
                 <ItemList></ItemList>
             </Container>
             <footer>
-                <Container>
-                    <h6 className="text-center p-4">Made by Alejandro Solano</h6>
+                <Container className="text-center p-4">
+                    <h6 >Developed by <a href="https://asolanorr.github.io/" target="_blank">Alejandro Solano</a> 👨‍💻</h6>
                 </Container>
             </footer>
         </ToastProvider>
