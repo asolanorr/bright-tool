@@ -3,7 +3,7 @@ import { Button, Col, Row, Dropdown, DropdownButton, Modal, FormControl } from '
 import './ItemList.scss';
 import { db } from "../../services/firebase";
 import ItemForm from "../ItemForm/ItemForm";
-import { onDeleteItem } from "../../services/ItemService";
+import { onDeleteItem, deleteOnDate } from "../../services/ItemService";
 import { Empty } from "antd";
 import { useToasts } from 'react-toast-notifications';
 
@@ -119,7 +119,7 @@ const ItemList = () => {
             </Row>
 
             <Row className="d-flex justify-content-between pl-3 pr-3 mb-3">
-                <FormControl className="searchInput" as="input" placeholder="Search..." onChange={(event) => { setSearchTerm(event.target.value) }} name="searchTerm" />
+                <FormControl className="searchInput" as="input" placeholder="🔍 Search..." onChange={(event) => { setSearchTerm(event.target.value) }} name="searchTerm" />
                 <Button className="defaultButton" onClick={() => openAdd()}>+ Add paths</Button>
             </Row>
 
@@ -145,6 +145,7 @@ const ItemList = () => {
                         return val;
                     }
                 }).map((item) => (
+                    deleteOnDate(item.date, item.id),
                     tmpPaths = item.path.split(','),
                     <Row className="listItem" key={item.id}>
                         <Col className="p-0 pl-1" md={1}>
@@ -153,7 +154,7 @@ const ItemList = () => {
                         <Col className="pr-0" md={7}>
                             {listPaths()}
                         </Col>
-                        <Col className="p-0" md={1}>{item.date}</Col>
+                        <Col className="p-0" md={1}>{new Date(item.date).toLocaleDateString("en-US")}</Col>
                         <Col className="" md={2}>{item.dev}</Col>
                         <Col className="p-0 text-center" md={1}>
                             <DropdownButton id="dropdown-item-button" className="listDropdown" title="">

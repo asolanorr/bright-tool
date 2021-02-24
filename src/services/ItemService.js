@@ -19,3 +19,12 @@ export const getItemByID = async (id, setValues) => {
     setValues({ ...doc.data() });
     console.log({ ...doc.data() });
 }
+
+export const deleteOnDate = async (dateValue, id) => {
+    let today = new Date();
+    let dueDate = new Date(dateValue);
+
+    if (today.setHours(0, 0, 0, 0) > dueDate.setHours(0, 0, 0, 0)) {
+        await db.collection('items').doc(id).delete();
+    }
+}

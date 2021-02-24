@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getItemByID = exports.onEditItem = exports.onDeleteItem = exports.createItem = exports.data = void 0;
+exports.deleteOnDate = exports.getItemByID = exports.onEditItem = exports.onDeleteItem = exports.createItem = exports.data = void 0;
 
 var _firebase = require("./firebase");
 
@@ -93,3 +93,30 @@ var getItemByID = function getItemByID(id, setValues) {
 };
 
 exports.getItemByID = getItemByID;
+
+var deleteOnDate = function deleteOnDate(dateValue, id) {
+  var today, dueDate;
+  return regeneratorRuntime.async(function deleteOnDate$(_context5) {
+    while (1) {
+      switch (_context5.prev = _context5.next) {
+        case 0:
+          today = new Date();
+          dueDate = new Date(dateValue);
+
+          if (!(today.setHours(0, 0, 0, 0) > dueDate.setHours(0, 0, 0, 0))) {
+            _context5.next = 5;
+            break;
+          }
+
+          _context5.next = 5;
+          return regeneratorRuntime.awrap(_firebase.db.collection('items').doc(id)["delete"]());
+
+        case 5:
+        case "end":
+          return _context5.stop();
+      }
+    }
+  });
+};
+
+exports.deleteOnDate = deleteOnDate;

@@ -106,7 +106,7 @@ const ItemForm = (props) => {
                 <Col md={5} className="pl-0">
                     <Form.Group controlId="date">
                         <Form.Label>Due Date</Form.Label>
-                        <Form.Control ref={register({ required: true })} name="date" type="date" placeholder="Due date" onChange={handleInputChange} defaultValue={props.values.date} />
+                        <Form.Control ref={register({ required: true })} name="date" type="date" placeholder="Due date" min={new Date().toISOString().split('T')[0]} onChange={handleInputChange} defaultValue={props.values.date} />
                         {errors.date && <p className="text-danger">Please select a valid date.</p>}
                     </Form.Group>
                 </Col>
