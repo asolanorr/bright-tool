@@ -23,7 +23,7 @@ export const getItemByID = async (id, setValues) => {
 export const deleteOnDate = async (dateValue, id) => {
     let today = new Date();
     let dueDate = new Date(dateValue);
-
+    //set hours 11:59 pm?
     if (today.setHours(0, 0, 0, 0) > dueDate.setHours(0, 0, 0, 0)) {
         await db.collection('items').doc(id).delete();
     }

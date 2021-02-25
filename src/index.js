@@ -7,6 +7,8 @@ import Home from "./views/Home";
 import firebase from "firebase/app";
 import "firebase/auth";
 
+require('dotenv').config()
+
 firebase.auth().signInAnonymously()
   .then(() => {
     ReactDOM.render(

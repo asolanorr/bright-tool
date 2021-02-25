@@ -101,7 +101,7 @@ var deleteOnDate = function deleteOnDate(dateValue, id) {
       switch (_context5.prev = _context5.next) {
         case 0:
           today = new Date();
-          dueDate = new Date(dateValue);
+          dueDate = new Date(dateValue); //set hours 11:59 pm?
 
           if (!(today.setHours(0, 0, 0, 0) > dueDate.setHours(0, 0, 0, 0))) {
             _context5.next = 5;

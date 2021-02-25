@@ -8,9 +8,8 @@
     "@testing-library/user-event": "^12.1.10",
     "antd": "^4.12.3",
     "bootstrap": "^4.6.0",
+    "dotenv": "^8.2.0",
     "firebase": "^8.2.6",
-    "formik": "^2.2.6",
-    "moment": "^2.29.1",
     "node-sass": "^5.0.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
@@ -18,8 +17,7 @@
     "react-hook-form": "^6.15.1",
     "react-scripts": "4.0.2",
     "react-toast-notifications": "^2.4.3",
-    "web-vitals": "^1.0.1",
-    "yup": "^0.32.8"
+    "web-vitals": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -17,7 +17,6 @@ const Home = () => {
             <footer>
                 <Container className="text-center p-4">
                     <h6>Made with ❤️ by <a href="https://asolanorr.github.io/" rel="noreferrer" target="_blank">Alejandro Solano</a>.</h6>
-                    {/* <h6 >Developed by <a href="https://asolanorr.github.io/" target="_blank">Alejandro Solano</a> 👨‍💻</h6> */}
                 </Container>
             </footer>
         </ToastProvider>
