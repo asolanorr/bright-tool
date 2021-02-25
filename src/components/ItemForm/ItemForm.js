@@ -21,6 +21,7 @@ const ItemForm = (props) => {
     const handleInputChange = e => {
         const { name, value } = e.target;
         props.setValues({ ...props.values, [name]: value });
+        
     }
 
     const onSubmit = e => {
@@ -51,7 +52,6 @@ const ItemForm = (props) => {
             props.setValues({ ...initialStateValues });
         } else {
             getItemByID(props.currentID, props.setValues);
-            console.log(props.values)
         }
 
     }, [props.currentID])

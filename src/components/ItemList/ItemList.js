@@ -56,7 +56,6 @@ const ItemList = () => {
         if (items.length === 0) {
             return (
                 <div className="m-4">
-
                     <Empty
                         image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
                         imageStyle={{
@@ -154,7 +153,7 @@ const ItemList = () => {
                         <Col className="pr-0" md={7}>
                             {listPaths()}
                         </Col>
-                        <Col className="p-0" md={1}>{new Date(item.date).toLocaleDateString("en-US")}</Col>
+                        <Col className="p-0" md={1}>{new Date(item.date).toUTCString().split(' ').slice(0, 3).join(' ')}</Col>
                         <Col className="" md={2}>{item.dev}</Col>
                         <Col className="p-0 text-center" md={1}>
                             <DropdownButton id="dropdown-item-button" className="listDropdown" title="">

@@ -17,14 +17,12 @@ export const onEditItem = async (itemObject, currentID) => {
 export const getItemByID = async (id, setValues) => {
     const doc = await db.collection('items').doc(id).get();
     setValues({ ...doc.data() });
-    console.log({ ...doc.data() });
 }
 
 export const deleteOnDate = async (dateValue, id) => {
     let today = new Date();
     let dueDate = new Date(dateValue);
-    //set hours 11:59 pm?
-    if (today.setHours(0, 0, 0, 0) > dueDate.setHours(0, 0, 0, 0)) {
+    if (today.setHours(23, 59, 0, 0) > dueDate.setHours(23, 59, 0, 0)) {
         await db.collection('items').doc(id).delete();
     }
 }

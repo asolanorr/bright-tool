@@ -82,9 +82,8 @@ var getItemByID = function getItemByID(id, setValues) {
         case 2:
           doc = _context4.sent;
           setValues(_objectSpread({}, doc.data()));
-          console.log(_objectSpread({}, doc.data()));
 
-        case 5:
+        case 4:
         case "end":
           return _context4.stop();
       }
@@ -101,9 +100,9 @@ var deleteOnDate = function deleteOnDate(dateValue, id) {
       switch (_context5.prev = _context5.next) {
         case 0:
           today = new Date();
-          dueDate = new Date(dateValue); //set hours 11:59 pm?
+          dueDate = new Date(dateValue);
 
-          if (!(today.setHours(0, 0, 0, 0) > dueDate.setHours(0, 0, 0, 0))) {
+          if (!(today.setHours(23, 59, 0, 0) > dueDate.setHours(23, 59, 0, 0))) {
             _context5.next = 5;
             break;
           }
