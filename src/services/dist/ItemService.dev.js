@@ -20,12 +20,13 @@ exports.data = data;
 var jiraValidation = function jiraValidation(item) {
   var newURL;
 
-  if (item.url.length >= 7 && item.url.includes('WU-')) {
+  if (!item.url.includes('https://jira.solarwinds.com/browse/') && item.url.length >= 7 && item.url.includes('WU-')) {
     newURL = 'https://jira.solarwinds.com/browse/' + item.url;
     item.url = newURL;
+    return item;
+  } else if (item.url.includes('https://jira.solarwinds.com/browse/')) {
+    return item;
   }
-
-  return item;
 };
 
 var createItem = function createItem(itemObject) {

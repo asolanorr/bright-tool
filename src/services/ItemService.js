@@ -5,11 +5,14 @@ export let data = [];
 //Validate if the url value is a Jira ticket code to auto-complete the URL
 const jiraValidation = (item) => {
     let newURL;
-    if (item.url.length >= 7 && item.url.includes('WU-')) {
+    
+    if (!item.url.includes('https://jira.solarwinds.com/browse/') && item.url.length >= 7 && item.url.includes('WU-')) {
         newURL = 'https://jira.solarwinds.com/browse/' + item.url 
         item.url = newURL;
+        return item;
+    } else if (item.url.includes('https://jira.solarwinds.com/browse/')) {
+        return item;
     }
-    return item;
 }
 
 export const createItem = async (itemObject) => {
