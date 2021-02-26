@@ -13,18 +13,32 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var data = [];
+var data = []; //Validate if the url value is a Jira ticket code to auto-complete the URL
+
 exports.data = data;
 
+var jiraValidation = function jiraValidation(item) {
+  var newURL;
+
+  if (item.url.length >= 7 && item.url.includes('WU-')) {
+    newURL = 'https://jira.solarwinds.com/browse/' + item.url;
+    item.url = newURL;
+  }
+
+  return item;
+};
+
 var createItem = function createItem(itemObject) {
+  var newObj;
   return regeneratorRuntime.async(function createItem$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          _context.next = 2;
-          return regeneratorRuntime.awrap(_firebase.db.collection('items').doc().set(itemObject));
+          newObj = jiraValidation(itemObject);
+          _context.next = 3;
+          return regeneratorRuntime.awrap(_firebase.db.collection('items').doc().set(newObj));
 
-        case 2:
+        case 3:
         case "end":
           return _context.stop();
       }
@@ -53,14 +67,16 @@ var onDeleteItem = function onDeleteItem(id) {
 exports.onDeleteItem = onDeleteItem;
 
 var onEditItem = function onEditItem(itemObject, currentID) {
+  var newObj;
   return regeneratorRuntime.async(function onEditItem$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
-          _context3.next = 2;
-          return regeneratorRuntime.awrap(_firebase.db.collection('items').doc(currentID).update(itemObject));
+          newObj = jiraValidation(itemObject);
+          _context3.next = 3;
+          return regeneratorRuntime.awrap(_firebase.db.collection('items').doc(currentID).update(newObj));
 
-        case 2:
+        case 3:
         case "end":
           return _context3.stop();
       }
@@ -89,7 +105,8 @@ var getItemByID = function getItemByID(id, setValues) {
       }
     }
   });
-};
+}; //Delete the items whose date already past
+
 
 exports.getItemByID = getItemByID;
 

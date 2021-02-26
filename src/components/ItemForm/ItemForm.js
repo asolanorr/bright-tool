@@ -14,8 +14,10 @@ const ItemForm = (props) => {
         dev: ''
     };
 
+    //This hook is responsible for the validations in the form
     const { register, handleSubmit, errors } = useForm();
 
+    //The same Toast notifications hook as ItemList.js
     const { addToast } = useToasts();
 
     const handleInputChange = e => {
@@ -28,7 +30,6 @@ const ItemForm = (props) => {
 
         if (props.currentID === '') {
             createItem(props.values);
-
             addToast('Wooohooo! 🤓 \nThe item was created successfully.', { 
                 appearance: 'success',
                 autoDismiss: true
@@ -36,7 +37,6 @@ const ItemForm = (props) => {
 
         } else {
             onEditItem(props.values, props.currentID);
-
             addToast('Oooh yeah! 😎 \nThe item was edited successfully.', { 
                 appearance: 'success',
                 autoDismiss: true

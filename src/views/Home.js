@@ -14,6 +14,7 @@ const Home = () => {
             <Container className="containerTweaks">
                 <ItemList></ItemList>
             </Container>
+            
             <footer>
                 <Container className="text-center p-4">
                     <h6>Made with ❤️ by <a href="https://asolanorr.github.io/" rel="noreferrer" target="_blank">Alejandro Solano</a>.</h6>

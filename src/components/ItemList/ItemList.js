@@ -1,18 +1,20 @@
-import { React, useState, useEffect } from 'react'
+import { React, useState, useEffect } from 'react';
 import { Button, Col, Row, Dropdown, DropdownButton, Modal, FormControl } from 'react-bootstrap';
 import './ItemList.scss';
-import { db } from "../../services/firebase";
-import ItemForm from "../ItemForm/ItemForm";
-import { onDeleteItem, deleteOnDate } from "../../services/ItemService";
-import { Empty } from "antd";
+import { db } from '../../services/firebase';
+import ItemForm from '../ItemForm/ItemForm';
+import { onDeleteItem, deleteOnDate } from '../../services/ItemService';
+import { Empty } from 'antd';
 import { useToasts } from 'react-toast-notifications';
 
 const ItemList = () => {
-
+    //This hook is responsible for storage the list of items
     const [items, setItems] = useState([]);
 
+    //This hook is for save the current ID of the item which is being modified
     const [currentID, SetCurrentID] = useState('');
 
+    //This hook is responsible for storage the word that is being written in the search bar
     const [searchTerm, setSearchTerm] = useState('');
 
     const initialStateValues = {
@@ -21,9 +23,10 @@ const ItemList = () => {
         date: '',
         dev: ''
     };
-
+    //This hook is responsible for storage the values of the form
     const [values, setValues] = useState(initialStateValues);
 
+    //Custom library hook for the toasts notifications
     const { addToast } = useToasts();
 
     //This variable saves the paths of the current item, it's just a temporary variable
@@ -51,8 +54,8 @@ const ItemList = () => {
         return itemPaths;
     }
 
+    //As its name says this function verifies if the list of items is empty and return a component
     const isEmpty = (items) => {
-
         if (items.length === 0) {
             return (
                 <div className="m-4">
@@ -83,12 +86,11 @@ const ItemList = () => {
         getItems();
     }, []);
 
-
+    //Modal state hook
     const [modalShow, setModalShow] = useState(false);
 
     const openEdit = (id) => {
         SetCurrentID(id);
-        console.log(id);
         setModalShow(true);
     }
 
@@ -133,6 +135,7 @@ const ItemList = () => {
 
                 {isEmpty(items)}
 
+                {/* The .filter is responsible for filter the array of items by any of the attributes */}
                 {items.filter((val) => {
                     if (searchTerm === '') {
                         return val;
@@ -143,6 +146,7 @@ const ItemList = () => {
                         val.date.toLowerCase().includes(searchTerm.toLowerCase())) {
                         return val;
                     }
+                    // Then we iterate on the array and start to fill the component
                 }).map((item) => (
                     deleteOnDate(item.date, item.id),
                     tmpPaths = item.path.split(','),
